@@ -1,0 +1,31 @@
+{
+  "name": "fennoa-api-client",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsc --watch",
+    "test": "nodemon test.js",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rantalainen/fennoa-api-client.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "files": [
+    "dist/**/*"
+  ],
+  "bugs": {
+    "url": "https://github.com/rantalainen/fennoa-api-client/issues"
+  },
+  "homepage": "https://github.com/rantalainen/fennoa-api-client#readme",
+  "devDependencies": {
+    "typescript": "^4.4.4"
+  },
+  "dependencies": {
+    "form-data": "^4.0.0",
+    "got": "^11.8.2"
+  }
+}
