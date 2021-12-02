@@ -1,5 +1,5 @@
 {
-  "name": "fennoa-api-client",
+  "name": "@rantalainen/fennoa-api-client",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",

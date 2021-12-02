@@ -9,7 +9,7 @@ FennoaApiClient is a third party Fennoa API client.
 Add to project's package.json:
 
 ```
-npm install git+ssh://github@github.com/rantalainen/fennoa-api-client.git#main
+npm install @rantalainen/fennoa-api-client
 ```
 
 ## Setup
