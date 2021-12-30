@@ -2,7 +2,7 @@ import { FennoaApiClient } from '../index';
 import { Methods } from '../methods';
 import { Helpers } from '../helpers';
 import { INewSalesInvoice } from '../interfaces/sale.interfaces';
-import FormData from 'form-data';
+import * as FormData from 'form-data';
 
 export class SaleMethods extends Methods {
   constructor(fennoa: FennoaApiClient) {

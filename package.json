@@ -1,6 +1,6 @@
 {
   "name": "@rantalainen/fennoa-api-client",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -27,5 +27,8 @@
   "dependencies": {
     "form-data": "^4.0.0",
     "got": "^11.8.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

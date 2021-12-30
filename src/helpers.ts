@@ -1,4 +1,4 @@
-import FormData from 'form-data';
+import * as FormData from 'form-data';
 
 export class Helpers {
   /** Converts JS Object to Form Data. Source: https://stackoverflow.com/a/49376875 */

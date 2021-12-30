@@ -17,13 +17,13 @@ npm install @rantalainen/fennoa-api-client
 ### Import to NodeJS project
 
 ```javascript
-const { FennoaApiClient } = require('fennoa-api-client');
+const { FennoaApiClient } = require('@rantalainen/fennoa-api-client');
 ```
 
 ### Import to TypeScript project
 
 ```javascript
-import { FennoaApiClient } from 'fennoa-api-client';
+import { FennoaApiClient } from '@rantalainen/fennoa-api-client';
 ```
 
 ### Setup client with options
@@ -44,7 +44,7 @@ const fennoa = new FennoaApiClient({
 
 ## Implemented methods
 
-The following api resources have been implemented:
+The following api methods have been implemented:
 
 - `customers` Customers
 - `sales` Sales invoices
@@ -120,3 +120,4 @@ const newInvoiceId = await fennoa.sales.createInvoiceByFinvoiceXML(xml);
 ## Changelog
 
 - 0.0.1 First release
+- 0.0.2 Switching FormData type import
