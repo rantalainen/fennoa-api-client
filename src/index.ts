@@ -31,24 +31,23 @@ export class FennoaApiClient {
     this.purchases = new PurchaseMethods(this);
   }
 
-  async request(method: Method, url: string, body?: any, params?: any): Promise<any> {
+  async request(method: Method, url: string, body?: any, params?: any, headers?: Record<string, string>): Promise<any> {
     const gotOptions: OptionsOfJSONResponseBody = {
       method,
       url,
       username: this.options.fennoaUser,
       password: this.options.fennoaPassword,
       timeout: this.options.timeout,
-      throwHttpErrors: false
+      throwHttpErrors: false,
+      headers: headers || {}
     };
 
-    // If body is defined
-    if (body) {
-      gotOptions.body = body;
-    }
-
-    // If params is defined
     if (params) {
       gotOptions.searchParams = params;
+    }
+
+    if (body) {
+      gotOptions.body = body;
     }
 
     const result: any = await got({ ...gotOptions });
