@@ -2,6 +2,7 @@ import got, { Method, OptionsOfJSONResponseBody } from 'got';
 import { IFennoaApiClientOptions, IFennoaApiResponse } from './interfaces';
 
 import { CustomerMethods } from './methods/customer.methods';
+import { PurchaseMethods } from './methods/purchase.methods';
 import { SaleMethods } from './methods/sale.methods';
 
 export class FennoaApiClient {
@@ -9,6 +10,7 @@ export class FennoaApiClient {
 
   readonly customers: CustomerMethods;
   readonly sales: SaleMethods;
+  readonly purchases: PurchaseMethods;
 
   constructor(options: IFennoaApiClientOptions) {
     // Set default options
@@ -26,26 +28,26 @@ export class FennoaApiClient {
 
     this.customers = new CustomerMethods(this);
     this.sales = new SaleMethods(this);
+    this.purchases = new PurchaseMethods(this);
   }
 
-  async request(method: Method, url: string, body?: any, params?: any): Promise<any> {
+  async request(method: Method, url: string, body?: any, params?: any, headers?: Record<string, string>): Promise<any> {
     const gotOptions: OptionsOfJSONResponseBody = {
       method,
       url,
       username: this.options.fennoaUser,
       password: this.options.fennoaPassword,
       timeout: this.options.timeout,
-      throwHttpErrors: false
+      throwHttpErrors: false,
+      headers: headers || {}
     };
 
-    // If body is defined
-    if (body) {
-      gotOptions.body = body;
-    }
-
-    // If params is defined
     if (params) {
       gotOptions.searchParams = params;
+    }
+
+    if (body) {
+      gotOptions.body = body;
     }
 
     const result: any = await got({ ...gotOptions });

@@ -111,13 +111,45 @@ Create a new sales invoice from Finvoice XML data:
 const newInvoiceId = await fennoa.sales.createInvoiceByFinvoiceXML(xml);
 ```
 
+### Purchases examples
+
+Here is an example of fetching all purchase invoices from approval queue:
+
+```javascript
+const purchases = await fennoa.purchases.getApprovalQueue();
+```
+
+Fetch single purchase invoice by ID:
+
+```javascript
+const purchaseInvoice = await fennoa.purchases.getPurchaseInvoiceById(12);
+```
+
+Approve purchase invoice by approval ID with an optional comment:
+
+```javascript
+fennoa.purchases.approvePurchaseInvoice(2, 'Approved by automation');
+```
+
+Add payment to purchase invoice:
+
+```javascript
+const paymentInfo = {
+  purchase_invoice_id: 2,
+  sum: 100,
+  payment_date: '2025-03-01',
+  description: 'Paid by automation'
+};
+
+await fennoa.purchases.addPurchasePayment(paymentInfo);
+```
+
 ## Resources
 
 - Fennoa website: https://www.fennoa.com/
 - Fennoa API Documentation: https://www.fennoa.com/api-documentation/
 - Fennoa login page: https://app.fennoa.com/login
 
-## Changelog
+```
 
-- 0.0.1 First release
-- 0.0.2 Switching FormData type import
+```

@@ -23,8 +23,8 @@ export class Methods {
     this._selectedApi = selectedApi;
   }
 
-  async request(method: Method, uri: string, body?: any, params?: any): Promise<IFennoaApiResponse> {
-    return await this._fennoa().request(method, `${this._fennoa().options.apiBaseUrl}/${this._selectedApi}/${uri}`, body, params);
+  async request(method: Method, uri: string, body?: any, params?: any, headers?: Record<string, string>): Promise<IFennoaApiResponse> {
+    return await this._fennoa().request(method, `${this._fennoa().options.apiBaseUrl}/${this._selectedApi}/${uri}`, body, params, headers);
   }
 
   async getAll(): Promise<any> {
