@@ -48,6 +48,7 @@ The following api methods have been implemented:
 
 - `customers` Customers
 - `sales` Sales invoices
+- `purchases` Purchase invoices
 
 ### Getter examples
 
@@ -55,8 +56,22 @@ Each resource type has `getAll()` and `getById(1234)` getters (below examples wi
 
 ```javascript
 const customers = await fennoa.customers.getAll(); // array of customers
-const customer = await fennoa.customers.getById(1234); // single customer
+const customer = await fennoa.customers.getById(1234); // single customer by id
 ```
+
+### Customer examples
+
+Get customer by customer number:
+
+```javascript
+const customer = await fennoa.customers.getByCustomerNo('1000'); // single customer by customer number
+```
+
+<br>
+Create a new customer
+TODO
+<br>
+Update a customer TODO
 
 ### Sales examples
 
