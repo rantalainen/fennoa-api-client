@@ -64,14 +64,55 @@ const customer = await fennoa.customers.getById(1234); // single customer by id
 Get customer by customer number:
 
 ```javascript
-const customer = await fennoa.customers.getByCustomerNo('1000'); // single customer by customer number
+const customer = await fennoa.customers.getByCustomerNo('1234'); // single customer by customer number
 ```
 
 <br>
 Create a new customer
-TODO
+
+```javascript
+const newCustomer: INewCustomer = {
+  customer_no: '1234',
+  name: 'Test Customer 2 Oy',
+  name2: 'Nimi 2',
+  address: 'Test Address 1',
+  postalcode: '00100',
+  city: 'Helsinki',
+  country_id: 'FI',
+  description: 'Test Description',
+  email: 'test@example.com',
+  phone: '0123456789',
+  fax: '0123456789',
+  website: 'https://www.example.com',
+  business_id: '1837795-7',
+  vat_number: 'FI18377957',
+  identity_number: '123456-7890',
+  account_type_id: 1,
+  contact_person: 'John Doe',
+  einvoice_address: 'einvoice@example.com',
+  einvoice_operator_id: 'OKOYFIHH',
+  sales_invoice_delivery_method: 'email',
+  customer_group_ids: [1, 2],
+  locale_id: 1,
+  locale_code: 'FI'
+};
+
+const createdCustomer = await fennoa.customers.createCustomer(newCustomer);
+```
+
 <br>
-Update a customer TODO
+Update a customer
+
+```javascript
+const updateCustomer: IUpdateCustomer = {
+  name: 'Updated Customer Oy'
+  customer_group_ids: [3],
+};
+
+const updatedCustomer = await fennoa.customers.updateCustomer('1234', updateCustomer);
+```
+
+<br>
 
 ### Sales examples
 

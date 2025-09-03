@@ -24,34 +24,41 @@ export class CustomerMethods extends Methods {
   }
 
   /** Create a new customer. Returns id of the newly created customer. */
-  async createCustomer(customer: INewCustomer): Promise<number> {
+  async createCustomer(customer: INewCustomer): Promise<string> {
     const formData = Helpers.convertJsToFormData(customer);
 
     const result = await super.request('POST', 'add', formData);
 
-    return result.id as number;
+    if (result?.status !== 'ok' || !result?.data?.Customer) {
+      throw new Error('Fennoa error: Failed to create customer');
+    }
+
+    return result.data.Customer.id;
   }
 
   /** Create a new customer using FORM DATA. Returns id of the newly created customer. */
   async createCustomerByFormData(formData: FormData): Promise<number> {
     const result = await super.request('POST', 'add', formData);
 
-    return result.id as number;
+    if (result?.status !== 'ok' || !result?.data?.Customer) {
+      throw new Error('Fennoa error: Failed to create customer');
+    }
+
+    return result.data.Customer.id;
   }
 
   /** Update customer. Returns id of the updated customer. */
-  async updateCustomer(customerNo: string, customer: IUpdateCustomer): Promise<number> {
-    const formData = Helpers.convertJsToFormData(customer);
+  async updateCustomer(customerNo: string, customer: IUpdateCustomer): Promise<string> {
+    const headers = {
+      'Content-Type': 'application/json'
+    };
 
-    const result = await super.request('PUT', customerNo, formData);
+    const result = await super.request('PUT', customerNo, JSON.stringify(customer), undefined, headers);
 
-    return result.id as number;
-  }
+    if (result?.status !== 'ok' || !result?.data?.id) {
+      throw new Error('Fennoa error: Failed to update customer');
+    }
 
-  /** Update customer using FORM DATA. Returns id of the updated customer. */
-  async updateCustomerByFormData(customerNo: string, formData: FormData): Promise<number> {
-    const result = await super.request('PUT', customerNo, formData);
-
-    return result.id as number;
+    return result.data.id;
   }
 }
