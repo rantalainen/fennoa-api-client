@@ -1,6 +1,8 @@
 export interface INewSalesInvoice {
   /** Customer number */
-  customer_no?: number;
+  customer_no?: string;
+  /** Account type. 1=company (default), 2=consumer */
+  account_type_id?: number;
   /** Name of the customer */
   name: string;
   /** Secondary name of the customer */
