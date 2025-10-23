@@ -86,7 +86,7 @@ export interface INewSalesInvoice {
   /** Use `price_with_vat` fields as primary and calculate the net sums from gross sums (0 = No, 1 = Yes) */
   include_vat?: number;
   /** Sales invoice series ID */
-  sales_invoice_series_id: number;
+  sales_invoice_series_id?: number;
   /** Auxiliary name identifier, if any */
   auxiliary_name_id?: number;
   /** Invoice rows array */
