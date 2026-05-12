@@ -27,6 +27,16 @@ export class Methods {
     return await this._fennoa().request(method, `${this._fennoa().options.apiBaseUrl}/${this._selectedApi}/${uri}`, body, params, headers);
   }
 
+  async requestRaw(method: Method, uri: string, body?: any, params?: any, headers?: Record<string, string>): Promise<any> {
+    return await this._fennoa().requestRaw(
+      method,
+      `${this._fennoa().options.apiBaseUrl}/${this._selectedApi}/${uri}`,
+      body,
+      params,
+      headers
+    );
+  }
+
   async getAll(): Promise<any> {
     const result = await this.request('GET', '');
 

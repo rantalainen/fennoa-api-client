@@ -80,4 +80,37 @@ export class FennoaApiClient {
       throw new Error(`Fennoa HTTP error ${result.statusCode}: ${JSON.stringify(response?.errors)}`);
     }
   }
+
+  async requestRaw(method: Method, url: string, body?: any, params?: any, headers?: Record<string, string>): Promise<any> {
+    const gotOptions: any = {
+      method,
+      url,
+      username: this.options.fennoaUser,
+      password: this.options.fennoaPassword,
+      timeout: this.options.timeout,
+      throwHttpErrors: false,
+      headers: headers || {},
+      responseType: 'buffer'
+    };
+
+    if (params) {
+      gotOptions.searchParams = params;
+    }
+
+    if (body) {
+      gotOptions.body = body;
+    }
+
+    const result: any = await got({ ...gotOptions });
+
+    if (result.statusCode >= 400) {
+      throw new Error(`Fennoa HTTP error ${result.statusCode}: ${result.body.toString('utf8')}`);
+    }
+
+    return {
+      body: result.body,
+      headers: result.headers,
+      statusCode: result.statusCode
+    };
+  }
 }

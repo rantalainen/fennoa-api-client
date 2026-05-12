@@ -15,6 +15,10 @@ export interface INewSalesInvoice {
   city: string;
   /** Country code of the customer. */
   country: string;
+  /** Phone number of the customer */
+  phone?: string;
+  /** Email of the customer */
+  email?: string;
   /** Unique identifier of the tax classification */
   sales_invoice_taxclass_id?: number;
   /** Invoice type (1 = debit invoice, 2 = credit invoice) */
@@ -43,6 +47,8 @@ export interface INewSalesInvoice {
   your_reference?: string;
   /** Contact person */
   contact_person?: string;
+  /** Penal interest */
+  penal_interest?: number;
   /** Notes visible in the invoice form above invoice rows */
   notes_before?: string;
   /** Customer e-invoice address */
@@ -77,6 +83,12 @@ export interface INewSalesInvoice {
   order_identifier?: string;
   /** Agreement identifier */
   agreement_identifier?: string;
+  /** Tender reference */
+  tender_reference?: string;
+  /** Delivery note identifier */
+  delivery_note_identifier?: string;
+  /** Waybill identifier */
+  waybill_identifier?: string;
   /** Delivery method of the invoice (email, finvoice, postal, consumerfinvoice, consumerdirect, manual) */
   delivery_method?: string;
   /** Delivery terms */
@@ -89,6 +101,10 @@ export interface INewSalesInvoice {
   sales_invoice_series_id?: number;
   /** Auxiliary name identifier, if any */
   auxiliary_name_id?: number;
+  /** Sales pricelist id */
+  sales_pricelist_id?: number;
+  /** Specification details */
+  notes_fixed_width?: string | string[];
   /** Invoice rows array */
   row?: INewSalesInvoiceRow[];
 }
@@ -112,6 +128,147 @@ export interface INewSalesInvoiceRow {
   account_code?: string;
   /** Discount-% */
   discount_percent?: number;
-  /** Dimension (<dimtype>) */
-  dim?: string;
+  /** Row dimensions, e.g. { dim1: '1000' } */
+  dim?: Record<string, string | number>;
+}
+
+export interface SalesInvoiceSendOptions {
+  delivery_method?: 'finvoice' | 'email' | 'postal' | 'consumerfinvoice' | 'consumerdirect' | 'manual';
+  address?: string;
+  postalcode?: string | number;
+  city?: string;
+  country?: string;
+  einvoice_address?: string;
+  einvoice_operator_address?: string;
+}
+
+export interface SalesInvoiceDueDatePatch {
+  due_date: string;
+}
+
+export interface SalesInvoicePaymentInfo {
+  invoice_no: string;
+  payment_date: string;
+  sum: number;
+  payment_type: number;
+  is_factoring: 0 | 1;
+  description?: string;
+}
+
+export interface SalesInvoicePaymentListItem {
+  SalesInvoicePayment: {
+    id: number | string;
+    date: string;
+    description?: string;
+    sum: number | string;
+  };
+  SalesInvoice: {
+    id: number | string;
+    name: string;
+    invoice_no: number | string;
+  };
+}
+
+export interface SalesInvoiceDeliveryError {
+  sales_invoice_id: number | string;
+  invoice_no: number | string;
+  queued: string;
+  sent_message: string;
+}
+
+export interface SalesInvoicePdfResponse {
+  body: Buffer;
+  filename?: string;
+  contentType?: string;
+  headers: Record<string, unknown>;
+}
+
+export interface SalesInvoiceResponse {
+  SalesInvoice?: {
+    id: number | string;
+    invoice_no?: number | string;
+    invoice_type_id?: number | string;
+    auxiliary_name_id?: number | string;
+    customer_id?: number | string;
+    name?: string;
+    name2?: string;
+    address?: string;
+    postalcode?: string;
+    city?: string;
+    shipping_name?: string;
+    shipping_name2?: string;
+    shipping_address?: string;
+    shipping_postalcode?: string;
+    shipping_city?: string;
+    total_net?: number | string;
+    total_gross?: number | string;
+    total_vat?: number | string;
+    total_paid?: number | string;
+    total_due?: number | string;
+    banking_reference?: string;
+    invoice_date?: string;
+    due_date?: string;
+    cash_discount_date?: string;
+    cash_discount_sum?: number | string;
+    cash_discount_percent?: number | string;
+    vat_number?: string;
+    our_reference?: string;
+    your_reference?: string;
+    penal_interest?: number | string;
+    complaint_days?: number | string;
+    notes_internal?: string;
+    notes_before?: string;
+    delivery_method?: string;
+    delivery_terms?: string;
+    shipping_date?: string;
+    delivery_period_start?: string;
+    delivery_period_end?: string;
+    order_identifier?: string;
+    agreement_identifier?: string;
+    tender_reference?: string;
+    delivery_note_identifier?: string;
+    waybill_identifier?: string;
+    created?: string;
+  };
+  Country?: { code: string };
+  ShippingCountry?: { code: string };
+  Currency?: { code: string };
+  PaymentTerm?: {
+    id?: number | string;
+    name?: string;
+    days?: number | string;
+    discount_1_days?: number | string;
+    discount_1_percent?: number | string;
+    discount_2_days?: number | string;
+  };
+  SalesInvoiceRow?: Array<{
+    product_id?: number | string;
+    code?: string;
+    name?: string;
+    description?: string;
+    price?: number | string;
+    price_with_vat?: number | string;
+    include_vat?: 0 | 1 | number;
+    quantity?: number | string;
+    unit?: string;
+    vatpercent?: number | string;
+    discount_percent?: number | string;
+    total_net?: number | string;
+    total_vat?: number | string;
+    total_gross?: number | string;
+    dim?: string;
+    ProductGroups?: { id?: number | string; name?: string };
+  }>;
+  SalesInvoiceDelivery?: Array<{
+    address?: string;
+    einvoice_operator_id?: number | string | null;
+    bic?: string;
+    sent?: string;
+  }>;
+  SalesInvoicePayment?: Array<{
+    description?: string;
+    sum?: number | string;
+    payment_date?: string;
+    created?: string;
+  }>;
 }

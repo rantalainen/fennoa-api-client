@@ -169,6 +169,29 @@ Create a new sales invoice from Finvoice XML data:
 const newInvoiceId = await fennoa.sales.createInvoiceByFinvoiceXML(xml);
 ```
 
+Fetch a sales invoice by invoice number and patch the due date:
+
+```javascript
+const invoice = await fennoa.sales.getByInvoiceNo(1001);
+
+await fennoa.sales.patchInvoiceDueDate(Number(invoice.SalesInvoice?.id), '2026-07-01');
+```
+
+Add a sales invoice payment and fetch payments:
+
+```javascript
+await fennoa.sales.addPayment({
+  invoice_no: '1001',
+  payment_date: '2026-05-12',
+  sum: 100,
+  payment_type: 2,
+  is_factoring: 0,
+  description: 'Cash payment'
+});
+
+const payments = await fennoa.sales.getPayments('2026-05-01', '2026-05-31');
+```
+
 ### Purchases examples
 
 Here is an example of fetching all purchase invoices from approval queue:
