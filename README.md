@@ -46,7 +46,9 @@ const fennoa = new FennoaApiClient({
 
 The following api methods have been implemented:
 
+- `accounting` Accounting, ledger and budgets
 - `customers` Customers
+- `dimensions` Dimensions and dimension types
 - `sales` Sales invoices
 - `purchases` Purchase invoices
 
@@ -198,6 +200,100 @@ const paymentInfo = {
 };
 
 await fennoa.purchases.addPurchasePayment(paymentInfo);
+```
+
+### Accounting examples
+
+Fetch accounting periods, ledger rows and account balances:
+
+```javascript
+const periods = await fennoa.accounting.getPeriods();
+
+const ledger = await fennoa.accounting.getLedger('2024-01-01', '2024-01-31', {
+  accounts: [1900, 3000],
+  page: 1,
+  limit: 100
+});
+
+const balance = await fennoa.accounting.getAccountBalance(1900, '2024-01-31');
+
+const budgets = await fennoa.accounting.getBudgets(periods[0].id);
+```
+
+Create a balanced accounting statement and a budget:
+
+```javascript
+const statementId = await fennoa.accounting.createStatement({
+  entry_date: '2024-01-01',
+  statement_series_code: 'CA',
+  description: 'Cash sales',
+  row: [
+    {
+      debit: 100,
+      account: 1900,
+      description: 'Cash received'
+    },
+    {
+      credit: 100,
+      account: 3000,
+      description: 'Sales income',
+      vatcode: 11
+    }
+  ]
+});
+
+const budgetId = await fennoa.accounting.createBudget({
+  name: 'Budget 2024',
+  accounting_period_id: 1,
+  accounts: [
+    {
+      code: '3000',
+      period_total_sum: 15000
+    }
+  ]
+});
+
+const patchedBudget = await fennoa.accounting.patchBudget(budgetId, {
+  name: 'Budget 2024 updated',
+  accounting_period_id: 1,
+  accounts: [
+    {
+      code: '3000',
+      period_total_sum: 18000
+    }
+  ]
+});
+```
+
+### Dimension examples
+
+Fetch dimensions and dimension types:
+
+```javascript
+const dimensionTypes = await fennoa.dimensions.getTypes();
+
+const dimensions = await fennoa.dimensions.getAll({
+  dimension_type_id: 1,
+  is_active: 1
+});
+
+const dimension = await fennoa.dimensions.getById(2);
+```
+
+Create a new dimension or update an existing one:
+
+```javascript
+const dimensionId = await fennoa.dimensions.createDimension({
+  dimension_type_id: 1,
+  code: 'ABC',
+  name_fi: 'Projekti ABC',
+  name_en: 'Project ABC'
+});
+
+const dimensionTypeId = await fennoa.dimensions.createDimensionType({
+  name_fi: 'Projekti',
+  name_en: 'Project'
+});
 ```
 
 ## Resources

@@ -1,11 +1,11 @@
 {
   "name": "@rantalainen/fennoa-api-client",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
-    "test": "nodemon test.js",
+    "test": "node test.js",
     "build": "tsc"
   },
   "repository": {

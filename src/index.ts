@@ -1,14 +1,18 @@
 import got, { Method, OptionsOfJSONResponseBody } from 'got';
 import { IFennoaApiClientOptions, IFennoaApiResponse } from './interfaces';
 
+import { AccountingMethods } from './methods/accounting.methods';
 import { CustomerMethods } from './methods/customer.methods';
+import { DimensionMethods } from './methods/dimension.methods';
 import { PurchaseMethods } from './methods/purchase.methods';
 import { SaleMethods } from './methods/sale.methods';
 
 export class FennoaApiClient {
   options: IFennoaApiClientOptions;
 
+  readonly accounting: AccountingMethods;
   readonly customers: CustomerMethods;
+  readonly dimensions: DimensionMethods;
   readonly sales: SaleMethods;
   readonly purchases: PurchaseMethods;
 
@@ -26,7 +30,9 @@ export class FennoaApiClient {
 
     this.options = options;
 
+    this.accounting = new AccountingMethods(this);
     this.customers = new CustomerMethods(this);
+    this.dimensions = new DimensionMethods(this);
     this.sales = new SaleMethods(this);
     this.purchases = new PurchaseMethods(this);
   }
@@ -51,9 +57,18 @@ export class FennoaApiClient {
     }
 
     const result: any = await got({ ...gotOptions });
-    const response: IFennoaApiResponse = JSON.parse(result.body);
+    const parsedResponse: IFennoaApiResponse | any[] = JSON.parse(result.body);
 
-    if (response?.status === 'ok') {
+    if (parsedResponse instanceof Array) {
+      return {
+        status: 'ok',
+        data: parsedResponse
+      } as IFennoaApiResponse;
+    }
+
+    const response: IFennoaApiResponse = parsedResponse;
+
+    if (typeof response?.status === 'string' && response.status.toLowerCase() === 'ok') {
       return response;
     }
 
